@@ -11,6 +11,7 @@ __email__ = "edrabbit@edrabbit.com"
 import datetime
 import glob
 import os
+import sys
 import time
 
 import pytz
@@ -40,9 +41,17 @@ def read_temp():
     temp_f = temp_c * 9.0 / 5.0 + 32.0
     return utc_time, serial_num, temp_c, temp_f
 
-
-while True:
+def print_log_line():
     utc_time, serial_num, temp_c, temp_f = read_temp()
     print ('%s serial_number="%s", temp_c=%.2f, temp_f=%.2f'
-          % (utc_time, serial_num, temp_c, temp_f))
-    time.sleep(1)
+           % (utc_time, serial_num, temp_c, temp_f))
+
+
+if __name__ == "__main__":
+    if (len(sys.argv) > 1):
+        while True:
+            print_log_line()
+            time.sleep(float(sys.argv[1]))
+    else:
+        print_log_line()
+        exit()
